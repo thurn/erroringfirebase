@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+defaultTasks 'all'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  compile 'com.google.guava:guava:17.0'
+  compile 'junit:junit:4.4'
+  compile 'org.mockito:mockito-all:1.9.5'
+  compile 'com.firebase:firebase-client:1.0.17'
+}
+
+jacocoTestReport {
+  reports {
+    xml.enabled false
+    csv.enabled false
+    html.destination "${buildDir}/jacocoHtml"
+  }
+}
+
+jacoco {
+  toolVersion = "0.7.1.201405082137"
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src'
+    }
+  }
+  test {
+    java {
+      srcDir 'test'
+    }
+  }
+}
+
+task all(dependsOn: [test, jacocoTestReport]) {
+}
